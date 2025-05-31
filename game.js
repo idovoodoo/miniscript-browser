@@ -78,8 +78,7 @@ window.onload = function() {
         }
         
         // Make updateCanvas globally available for test buttons
-        window.updateCanvas = updateCanvas;
-          // Load MiniScript code from test master script
+        window.updateCanvas = updateCanvas;        // Load MiniScript code from test master script
         fetch('tests/test-master.ms?' + new Date().getTime())  // Add cache-busting parameter
             .then(response => response.text())
             .then(miniScriptCode => {

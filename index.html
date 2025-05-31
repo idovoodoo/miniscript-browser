@@ -60,9 +60,10 @@
         }
     </style>
 </head>
-<body>
-    <h1>MiniScript Test Suite</h1>
-    <canvas id="gameCanvas" width="320" height="240"></canvas>      <div class="test-buttons">
+<body>    <h1>MiniScript Test Suite</h1>
+    <canvas id="gameCanvas" width="320" height="240"></canvas>
+    
+    <div class="test-buttons">
         <button id="btn-master" class="active">Test Menu</button>
         <button id="btn-verification">Verification</button>
         <button id="btn-list-methods">List Methods</button>
@@ -72,6 +73,7 @@
         <button id="btn-list-bounds">List Bounds</button>
         <button id="btn-slice-fn">Slice Function</button>
         <button id="btn-built-ins">Built-in Functions</button>
+        <button id="btn-maps">Maps</button>
     </div>
     
     <div class="console" id="console-output">
@@ -98,9 +100,10 @@
             const line = document.createElement('div');
             line.textContent = args.join(' ');
             line.style.color = '#ff6666';
-            consoleOutput.appendChild(line);
-            consoleOutput.scrollTop = consoleOutput.scrollHeight;
-        };        // Test button functionality
+            consoleOutput.appendChild(line);            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+        
+        // Test button functionality
         const buttons = {
             'btn-master': 'tests/test-master.ms',
             'btn-verification': 'tests/test-verification.ms',
@@ -110,7 +113,8 @@
             'btn-string-ops': 'tests/test-string-operations.ms',
             'btn-list-bounds': 'tests/test-list-bounds.ms',
             'btn-slice-fn': 'tests/test-slice-function.ms',
-            'btn-built-ins': 'tests/test-built-in-functions.ms'
+            'btn-built-ins': 'tests/test-built-in-functions.ms',
+            'btn-maps': 'tests/test-map.ms'
         };
         
         function setActiveButton(buttonId) {
@@ -125,9 +129,9 @@
                 setActiveButton(btnId);
                 consoleOutput.innerHTML = ''; // Clear previous console output
                 loadAndRunTest(testFile);
-            });
-        }
-          function loadAndRunTest(testFile) {
+            });        }
+        
+        function loadAndRunTest(testFile) {
             console.log(`Loading test file: ${testFile}`);
             fetch(testFile + '?' + new Date().getTime())
                 .then(response => response.text())

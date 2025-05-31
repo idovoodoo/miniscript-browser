@@ -17,6 +17,7 @@ print "3. test-string-operations.ms - String concatenation and operations"
 print "4. test-list-bounds.ms - List boundary checking"
 print "5. test-slice-function.ms - Slice function tests"
 print "6. test-built-in-functions.ms - Built-in function tests"
+print "7. test-map.ms - Map operations and methods"
 print ""
 print "============================="
 print "All tests should be run individually to verify functionality."
@@ -36,6 +37,11 @@ extraText3 = "4. List Bounds  5. Slice Function  6. Built-ins"
 extraText3X = 160
 extraText3Y = 150
 extraText3Color = "#FFAAAA"
+
+extraText5 = "7. Maps"
+extraText5X = 160
+extraText5Y = 170
+extraText5Color = "#AACCFF"
 
 extraText4 = "Change the test file in game.js to run a test"
 extraText4X = 160

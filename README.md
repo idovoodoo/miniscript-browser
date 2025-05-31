@@ -20,6 +20,13 @@ A lightweight browser-based interpreter for MiniScript - a simple scripting lang
   - Proper index validation (errors on out-of-bounds access)
   - Robust chained/nested list indexing (e.g., `myList[1][0]`)
   - For-in loop support (`for item in myList`)
+- Map support:
+  - Map literals (`{"key": value, "key2": value2}`)
+  - Key-based access (`mapVar["key"]`)
+  - Key-based assignment (`mapVar["key"] = value`)
+  - Nested maps (`{"user": {"name": "John", "age": 30}}`)
+  - Map methods (`hasIndex()`, `indexes()`, `values()`, `remove()`, `clear()`)
+  - Map iteration (`for key in map`, `for key, value in map`)
 - String indexing (e.g., `"hello"[0]`)
 
 ## Project Structure
@@ -27,19 +34,31 @@ A lightweight browser-based interpreter for MiniScript - a simple scripting lang
 - `lib/miniscript-shim.js` - The main MiniScript interpreter
 - `index.html` - Browser interface with canvas support
 - `game.js` - Game loop and MiniScript integration
-- `script.ms` - Example MiniScript code
-- `test-clean.ms` - Test suite for the basic interpreter
-- `list-test-basic.ms` - Test suite for list functionality
+- `tests/` - Directory containing MiniScript test files:
+  - `test-master.ms` - Main test menu
+  - `test-list-methods.ms` - List method tests
+  - `test-nested-lists.ms` - Nested list tests
+  - `test-string-operations.ms` - String operation tests
+  - `test-list-bounds.ms` - List boundary tests
+  - `test-slice-function.ms` - Slice function tests
+  - `test-built-in-functions.ms` - Built-in function tests
+  - `test-map.ms` - Map functionality tests
 
 ## Usage
 
 1. Start a web server in the project directory
 2. Open `index.html` in a browser
-3. The interpreter will execute the MiniScript code from `script.ms`
+3. Use the test buttons to run different test suites
+4. View the results in the console output below the canvas
 
 ## Testing
 
-- Run `test-clean.ms` to verify the basic functionality of the interpreter
-- Run `list-test-basic.ms` to test the basic list functionality
-- Run `miniscript-list-test.ms` to test MiniScript-compliant list operations
-- Run `slice-test.ms` to test the list slicing functionality
+- Use the test buttons in the UI to run different test suites:
+  - List Methods - Test basic list methods (push, pop, pull)
+  - Nested Lists - Test operations on nested lists
+  - Chained Indexing - Test chained indexing with nested lists
+  - String Operations - Test string operations and concatenation
+  - List Bounds - Test list boundary checking
+  - Slice Function - Test the slice() function
+  - Built-in Functions - Test built-in functions (sqrt, round, etc.)
+  - Maps - Test map operations and methods
