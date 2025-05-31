@@ -19,8 +19,8 @@ print "Third item: " + myList[2]
 myList[1] = 25
 print "Modified list: " + myList
 
-// Add new items (extends the list)
-myList[5] = 60
+// Add new items to the list
+myList = myList + [60]  // In MiniScript, concatenate lists to add items
 print "Extended list: " + myList
 
 // Nested lists
@@ -34,10 +34,10 @@ for item in myList
     print "  Item: " + item
 end for
 
-// Create empty list and fill it
+// Create a list and fill it
 newList = []
-newList[0] = 100
-newList[1] = 200
+newList = newList + [100]  // Use list concatenation to add items
+newList = newList + [200]
 print "New list: " + newList
 
 print "List test completed successfully!"
