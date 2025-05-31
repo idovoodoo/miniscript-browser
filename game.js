@@ -13,8 +13,8 @@ window.onload = function() {
         // Check if MiniScript is loaded
         if (typeof miniscript === 'undefined') {
             throw new Error("MiniScript library not loaded!");
-        }        // Load MiniScript code from our MiniScript-compliant test script
-        fetch('miniscript-list-test.ms?' + new Date().getTime())  // Add cache-busting parameter
+        }        // Load MiniScript code from our slice test script
+        fetch('slice-test.ms?' + new Date().getTime())  // Add cache-busting parameter
             .then(response => response.text())
             .then(miniScriptCode => {
                 // Create the interpreter

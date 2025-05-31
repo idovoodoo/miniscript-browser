@@ -16,9 +16,11 @@ A lightweight browser-based interpreter for MiniScript - a simple scripting lang
   - Index-based access (`myList[0]`)
   - Index-based assignment (`myList[1] = 20`)
   - List concatenation (`myList = myList + [60]`)
+  - List slicing (`slice(myList, start, end)`)
   - Proper index validation (errors on out-of-bounds access)
-  - Nested list support (`myList[1][0]`)
+  - Robust chained/nested list indexing (e.g., `myList[1][0]`)
   - For-in loop support (`for item in myList`)
+- String indexing (e.g., `"hello"[0]`)
 
 ## Project Structure
 
@@ -40,3 +42,4 @@ A lightweight browser-based interpreter for MiniScript - a simple scripting lang
 - Run `test-clean.ms` to verify the basic functionality of the interpreter
 - Run `list-test-basic.ms` to test the basic list functionality
 - Run `miniscript-list-test.ms` to test MiniScript-compliant list operations
+- Run `slice-test.ms` to test the list slicing functionality
