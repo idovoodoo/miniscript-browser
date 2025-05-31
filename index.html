@@ -1,24 +1,154 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MiniScript Game</title>
+    <title>MiniScript Tests</title>
     <style>
         body {
             margin: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: #000;
+            background: #111;
+            font-family: Arial, sans-serif;
+            color: #eee;
         }
         canvas {
             border: 1px solid #333;
+            margin-bottom: 20px;
+        }
+        .test-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            max-width: 600px;
+        }
+        button {
+            padding: 8px 12px;
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #444;
+        }
+        button.active {
+            background: #0066cc;
+        }
+        .console {
+            width: 600px;
+            height: 200px;
+            background: #222;
+            border: 1px solid #444;
+            overflow-y: auto;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            margin-top: 10px;
+            color: #ddd;
+        }
+        h1 {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #ddd;
         }
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="320" height="240"></canvas>
+    <h1>MiniScript Test Suite</h1>
+    <canvas id="gameCanvas" width="320" height="240"></canvas>      <div class="test-buttons">
+        <button id="btn-master" class="active">Test Menu</button>
+        <button id="btn-verification">Verification</button>
+        <button id="btn-list-methods">List Methods</button>
+        <button id="btn-nested-lists">Nested Lists</button>
+        <button id="btn-chained-indexing">Chained Indexing</button>
+        <button id="btn-string-ops">String Operations</button>
+        <button id="btn-list-bounds">List Bounds</button>
+        <button id="btn-slice-fn">Slice Function</button>
+        <button id="btn-built-ins">Built-in Functions</button>
+    </div>
+    
+    <div class="console" id="console-output">
+        <!-- Console output will appear here -->
+    </div>
+    
     <script src="lib/miniscript-shim.js"></script>
+    <script>
+        // Override console.log to display in our custom console
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+        const consoleOutput = document.getElementById('console-output');
+        
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            const line = document.createElement('div');
+            line.textContent = args.join(' ');
+            consoleOutput.appendChild(line);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };
+        
+        console.error = function(...args) {
+            originalConsoleError.apply(console, args);
+            const line = document.createElement('div');
+            line.textContent = args.join(' ');
+            line.style.color = '#ff6666';
+            consoleOutput.appendChild(line);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        };        // Test button functionality
+        const buttons = {
+            'btn-master': 'tests/test-master.ms',
+            'btn-verification': 'tests/test-verification.ms',
+            'btn-list-methods': 'tests/test-list-methods.ms',
+            'btn-nested-lists': 'tests/test-nested-lists.ms',
+            'btn-chained-indexing': 'tests/test-chained-indexing.ms',
+            'btn-string-ops': 'tests/test-string-operations.ms',
+            'btn-list-bounds': 'tests/test-list-bounds.ms',
+            'btn-slice-fn': 'tests/test-slice-function.ms',
+            'btn-built-ins': 'tests/test-built-in-functions.ms'
+        };
+        
+        function setActiveButton(buttonId) {
+            document.querySelectorAll('.test-buttons button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(buttonId).classList.add('active');
+        }
+        
+        for (const [btnId, testFile] of Object.entries(buttons)) {
+            document.getElementById(btnId).addEventListener('click', () => {
+                setActiveButton(btnId);
+                consoleOutput.innerHTML = ''; // Clear previous console output
+                loadAndRunTest(testFile);
+            });
+        }
+          function loadAndRunTest(testFile) {
+            console.log(`Loading test file: ${testFile}`);
+            fetch(testFile + '?' + new Date().getTime())
+                .then(response => response.text())
+                .then(code => {
+                    // Create a new interpreter if needed
+                    if (!window.interpreter) {
+                        window.interpreter = new miniscript.Interpreter();
+                    }
+                    
+                    // Reset the interpreter to clear previous variables
+                    window.interpreter = new miniscript.Interpreter();
+                    
+                    // Run the test code
+                    window.interpreter.run(code);
+                    
+                    // Update the canvas
+                    updateCanvas();
+                })
+                .catch(err => console.error('Error loading test:', err));
+        }
+    </script>
     <script src="game.js"></script>
 </body>
 </html>

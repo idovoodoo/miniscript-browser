@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Exact Issue</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script src="lib/miniscript-shim.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message) {
+            console.log(message);
+            output.innerHTML += message.replace(/\n/g, '<br>') + '<br>';
+        }
+        
+        log("Testing exact nested lists issue...");
+        
+        const interpreter = new miniscript.Interpreter();
+        
+        try {
+            log("\n=== Reproducing the exact issue ===");
+            interpreter.run(`
+nestedList = [[1, 2], [3, 4]]
+nestedList.push([5, 6])
+poppedValue = nestedList.pop()
+print "Popped value from nested list: " + poppedValue
+if poppedValue != null then
+    print "First element of popped sublist: " + poppedValue[0]
+    print "Second element of popped sublist: " + poppedValue[1]
+end if
+print "Final nested list: " + nestedList
+            `);
+            
+        } catch (error) {
+            log("Error: " + error.message);
+            console.error(error);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Run Chained Indexing Test</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script src="lib/miniscript-shim.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        
+        // Override console.log to display in our custom console
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+        
+        console.log = function(...args) {
+            originalConsoleLog.apply(console, args);
+            const line = document.createElement('div');
+            line.textContent = args.join(' ');
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        };
+        
+        console.error = function(...args) {
+            originalConsoleError.apply(console, args);
+            const line = document.createElement('div');
+            line.textContent = args.join(' ');
+            line.style.color = '#ff6666';
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        };
+        
+        function loadAndRunTest(testFile) {
+            console.log(`Loading test file: ${testFile}`);
+            fetch(testFile + '?' + new Date().getTime())
+                .then(response => response.text())
+                .then(code => {
+                    // Create a new interpreter
+                    const interpreter = new miniscript.Interpreter();
+                    
+                    // Run the test code
+                    interpreter.run(code);
+                })
+                .catch(err => console.error('Error loading test:', err));
+        }
+        
+        // Load and run the chained indexing test
+        loadAndRunTest('tests/test-chained-indexing.ms');
+    </script>
+</body>
+</html>

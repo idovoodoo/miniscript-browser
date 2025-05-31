@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug If-Then Issue</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script src="lib/miniscript-shim.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message) {
+            console.log(message);
+            output.innerHTML += message + '<br>';
+        }
+        
+        log("Testing if-then issue...");
+        
+        const interpreter = new miniscript.Interpreter();
+        
+        try {
+            log("\n=== Test: Basic if-then ===");
+            interpreter.run(`
+                value = [5, 6]
+                if value != null then
+                    print "Value is not null: " + value
+                end if
+            `);
+            
+        } catch (error) {
+            log("Error: " + error.message);
+            console.error(error);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MiniScript List Test Suite</title>
+    <style>
+        body { font-family: monospace; background: #222; color: #ddd; padding: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #444; }
+        .pass { background: #2a4a2a; }
+        .fail { background: #4a2a2a; }
+    </style>
+</head>
+<body>
+    <h1>MiniScript List Test Suite</h1>
+    <div id="results"></div>
+    
+    <script src="lib/miniscript-shim.js"></script>
+    <script>
+        const results = document.getElementById('results');
+        
+        function runTest(name, code, expectedResult) {
+            const interpreter = new miniscript.Interpreter();
+            try {
+                interpreter.run(code);
+                const testDiv = document.createElement('div');
+                testDiv.className = 'test pass';
+                testDiv.innerHTML = `<strong>✓ ${name}</strong><br>Code: ${code}<br>Result: PASS`;
+                results.appendChild(testDiv);
+                return true;
+            } catch (error) {
+                const testDiv = document.createElement('div');
+                testDiv.className = 'test fail';
+                testDiv.innerHTML = `<strong>✗ ${name}</strong><br>Code: ${code}<br>Error: ${error.message}`;
+                results.appendChild(testDiv);
+                return false;
+            }
+        }
+        
+        // Run comprehensive list tests
+        console.log("Running comprehensive list tests...");
+        
+        // Basic list tests
+        runTest("Simple List", 'list1 = [1, 2, 3]');
+        runTest("Empty List", 'list2 = []');
+        runTest("Mixed Types", 'list3 = [1, "hello", true]');
+        
+        // Nested list tests
+        runTest("Simple Nested", 'nested1 = [1, [2, 3]]');
+        runTest("Complex Nested", 'nested2 = [[1, 2], [3, 4]]');
+        runTest("Deep Nested", 'nested3 = [1, [2, [3, 4]], 5]');
+        runTest("Mixed Nested", 'nested4 = ["hello", [10, 20], ["a", "b"]]');
+        
+        // List method tests
+        runTest("Push Method", 'list4 = [1, 2]; list4.push(3)');
+        runTest("Pop Method", 'list5 = [1, 2, 3]; val = list5.pop()');
+        runTest("Pull Method", 'list6 = [1, 2, 3]; val = list6.pull()');
+        
+        // Indexing tests
+        runTest("Simple Index", 'list7 = [1, 2, 3]; val = list7[0]');
+        runTest("Nested Index", 'list8 = [[1, 2], [3, 4]]; val = list8[0][1]');
+        
+        // Chaining tests
+        runTest("Method Chaining", 'list9 = []; list9.push(1).push(2)');
+        
+        console.log("All tests completed!");
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Chained Indexing Fix</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script src="lib/miniscript-shim.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message) {
+            console.log(message);
+            output.innerHTML += message.replace(/\n/g, '<br>') + '<br>';
+        }
+        
+        log("Testing chained indexing fix...");
+        
+        const interpreter = new miniscript.Interpreter();
+        
+        try {
+            log("\n=== Test 1: Create nested array ===");
+            interpreter.run('simpleNested = [[1, 2], [3, 4]]');
+            log("Created: " + JSON.stringify(interpreter.variables.simpleNested));
+            
+            log("\n=== Test 2: Simple indexing ===");
+            interpreter.run('first = simpleNested[0]');
+            log("simpleNested[0] = " + JSON.stringify(interpreter.variables.first));
+            
+            log("\n=== Test 3: Chained indexing ===");
+            interpreter.run('element = simpleNested[0][0]');
+            log("simpleNested[0][0] = " + JSON.stringify(interpreter.variables.element));
+            
+            log("\n=== Test 4: Print with chained indexing ===");
+            interpreter.run('print "First element: " + simpleNested[0][0]');
+            
+            log("\n=== Test 5: Deep nested ===");
+            interpreter.run('deepNested = [1, [2, [3, 4]], 5]');
+            interpreter.run('print "Deep element: " + deepNested[1][1][0]');
+            
+            log("\n=== Test 6: Mixed types ===");
+            interpreter.run('mixedNested = ["hello", [10, 20], ["a", "b"]]');
+            interpreter.run('print "Mixed first number: " + mixedNested[1][0]');
+            interpreter.run('print "Mixed first string: " + mixedNested[2][0]');
+            
+        } catch (error) {
+            log("Error: " + error.message);
+            console.error(error);
+        }
+    </script>
+</body>
+</html>

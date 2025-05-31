@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Block Execution</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script src="lib/miniscript-shim.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message) {
+            console.log(message);
+            output.innerHTML += message.replace(/\n/g, '<br>') + '<br>';
+        }
+        
+        log("Testing block execution...");
+        
+        const interpreter = new miniscript.Interpreter();
+        
+        // Override run method to add debugging
+        const originalRun = interpreter.run;
+        interpreter.run = function(code) {
+            log("=== RUN CALLED ===");
+            log("Code: " + JSON.stringify(code));
+            const lines = code.split('\n');
+            log("Lines: " + JSON.stringify(lines));
+            
+            try {
+                const result = originalRun.call(this, code);
+                log("=== RUN COMPLETED ===");
+                return result;
+            } catch (error) {
+                log("=== RUN ERROR ===");
+                log("Error: " + error.message);
+                throw error;
+            }
+        };
+        
+        try {
+            log("\n=== Test: Simple if-then execution ===");
+            interpreter.run(`
+poppedValue = [5, 6]
+if poppedValue != null then
+    print "First element: " + poppedValue[0]
+end if
+            `);
+            
+        } catch (error) {
+            log("Error: " + error.message);
+            console.error(error);
+        }
+    </script>
+</body>
+</html>

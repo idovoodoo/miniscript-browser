@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Fixed Issues</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script src="lib/miniscript-shim.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message) {
+            console.log(message);
+            output.innerHTML += message.replace(/\n/g, '<br>') + '<br>';
+        }
+        
+        log("Testing fixes...");
+        
+        const interpreter = new miniscript.Interpreter();
+        
+        try {
+            log("\n=== Test 1: Escape sequences ===");
+            interpreter.run('print "Line 1\\nLine 2\\nLine 3"');
+            
+            log("\n=== Test 2: Complex string concatenation ===");
+            interpreter.run('arr = [1, 2, 3]');
+            interpreter.run('print "Array element: " + arr[0] + " is the first"');
+            
+            log("\n=== Test 3: Nested list concatenation ===");
+            interpreter.run('nested = [[1, 2], [3, 4]]');
+            interpreter.run('print "Nested list: " + nested');
+            interpreter.run('value = nested.pop()');
+            interpreter.run('print "Popped value: " + value');
+            interpreter.run('if value != null then print "First element: " + value[0] end if');
+            
+        } catch (error) {
+            log("Error: " + error.message);
+            console.error(error);
+        }
+    </script>
+</body>
+</html>

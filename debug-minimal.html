@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug MiniScript - Minimal</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script src="lib/miniscript-shim.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message) {
+            console.log(message);
+            output.innerHTML += message + '<br>';
+        }
+        
+        log("Testing MiniScript nested list concatenation...");
+        
+        const interpreter = new miniscript.Interpreter();
+        
+        try {
+            log("\n=== Test: Simple array to string ===");
+            let testArray = [[1, 2], [3, 4]];
+            log("Test array: " + JSON.stringify(testArray));
+            log("arrayToString result: " + interpreter.arrayToString(testArray));
+            
+            log("\n=== Test: Variable assignment and print ===");
+            interpreter.run('nestedList = [[1, 2], [3, 4]]');
+            log("Variable value: " + JSON.stringify(interpreter.variables.nestedList));
+            
+            log("\n=== Test: String concatenation ===");
+            interpreter.run('print "Original nested list: " + nestedList');
+            
+            log("\n=== Test: String concatenation step by step ===");
+            const left = "Original nested list: ";
+            const right = interpreter.variables.nestedList;
+            log("Left: " + JSON.stringify(left));
+            log("Right: " + JSON.stringify(right));
+            log("Right arrayToString: " + interpreter.arrayToString(right));
+            log("Final result: " + left + interpreter.arrayToString(right));
+            
+        } catch (error) {
+            log("Error: " + error.message);
+            console.error(error);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Expression Evaluation</title>
+</head>
+<body>
+    <div id="output"></div>
+    <script src="lib/miniscript-shim.js"></script>
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message) {
+            console.log(message);
+            output.innerHTML += message + '<br>';
+        }
+        
+        log("Testing expression evaluation step by step...");
+        
+        const interpreter = new miniscript.Interpreter();
+        
+        // Override evalExpr to add debugging
+        const originalEvalExpr = interpreter.evalExpr;
+        interpreter.evalExpr = function(expr, depth = 0) {
+            const indent = '  '.repeat(depth);
+            log(`${indent}evalExpr: "${expr}"`);
+            
+            try {
+                const result = originalEvalExpr.call(this, expr, depth);
+                log(`${indent}-> ${JSON.stringify(result)}`);
+                return result;
+            } catch (error) {
+                log(`${indent}ERROR: ${error.message}`);
+                throw error;
+            }
+        };
+        
+        try {
+            log("\n=== Test 1: Simple string concat ===");
+            interpreter.run('print "Hello " + "World"');
+            
+            log("\n=== Test 2: String + Array ===");
+            interpreter.run('arr = [1, 2, 3]');
+            interpreter.run('print "Array: " + arr');
+            
+            log("\n=== Test 3: Complex expression ===");
+            interpreter.run('print "First element of popped sublist: " + arr[0]');
+            
+        } catch (error) {
+            log("Error: " + error.message);
+            console.error(error);
+        }
+    </script>
+</body>
+</html>

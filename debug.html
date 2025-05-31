@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug MiniScript</title>
+</head>
+<body>
+    <script src="lib/miniscript-shim.js"></script>
+    <script>
+        console.log("Testing simple list creation...");
+        
+        const interpreter = new miniscript.Interpreter();
+        
+        try {
+            console.log("Test 1: Simple list");
+            interpreter.run('testList = [1, 2, 3]');
+            console.log("Success: Simple list created");
+            
+            console.log("Test 2: Nested list");
+            interpreter.run('nestedList = [1, [2, 3]]');
+            console.log("Success: Nested list created");
+            
+            console.log("Test 3: Complex nested list");
+            interpreter.run('complexList = [[1, 2], [3, 4]]');
+            console.log("Success: Complex nested list created");
+            
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    </script>
+</body>
+</html>
